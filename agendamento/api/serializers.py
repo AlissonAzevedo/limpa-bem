@@ -6,19 +6,20 @@ from agendamento.models import Services, Employee, Client, Schedule
 
 # rest_framework
 from rest_framework import serializers
+from rest_framework_simplejwt.serializers import TokenObtainPairSerializer
 
 
 class UserSerializer(serializers.ModelSerializer):
     class Meta:
         model = User
-        fields = ["username", "password"]
-        extra_kwargs = {'password': {'write_only': True}}
+        fields = ["id", "username", "password"]
+        extra_kwargs = {"password": {"write_only": True}}
 
 
 class ServicesSerializer(serializers.ModelSerializer):
     class Meta:
         model = Services
-        fields = ["name", "price", "active"]
+        fields = ["id", "name", "price", "active"]
 
 
 class EmployeeSerializer(serializers.ModelSerializer):
@@ -26,7 +27,7 @@ class EmployeeSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Employee
-        fields = ["user", "name", "position", "is_manager", "get_position"]
+        fields = ["id", "user", "name", "position", "is_manager", "get_position"]
 
     def create(self, validated_data):
         user_data = validated_data.pop("user")
@@ -39,6 +40,7 @@ class ClientSerializer(serializers.ModelSerializer):
     class Meta:
         model = Client
         fields = [
+            "id",
             "name",
             "street",
             "number",
@@ -55,4 +57,43 @@ class ScheduleSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Schedule
-        fields = ["client", "employee", "service", "date", "status", "payment"]
+        fields = [
+            "id",
+            "client",
+            "attendant",
+            "helper",
+            "service",
+            "date",
+            "status",
+            "payment",
+        ]
+
+    def create(self, validated_data):
+        client_data = validated_data.pop("client")
+        client = Client.objects.create(**client_data)
+        schedule = Schedule.objects.create(client=client, **validated_data)
+        return schedule
+
+
+class MyTokenObtainPairSerializer(TokenObtainPairSerializer):
+    @classmethod
+    def get_token(cls, user):
+        token = super().get_token(user)
+        return token
+
+    def validate(self, attrs):
+        data = super().validate(attrs)
+        refresh = self.get_token(self.user)
+
+        data["refresh"] = str(refresh)
+        data["access"] = str(refresh.access_token)
+        try:
+            employee = Employee.objects.get(user=self.user)
+            data["employee_id"] = employee.id
+        except Exception as e:
+            employee = Employee.objects.create(
+                user=self.user, name=self.user.username
+            )
+            data["employee_id"] = employee.id
+
+        return data

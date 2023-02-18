@@ -6,9 +6,11 @@ from agendamento.api.serializers import (
     ClientSerializer,
     ScheduleSerializer,
 )
+from agendamento.api.serializers import MyTokenObtainPairSerializer
 
 # rest_framework
-from rest_framework import viewsets, permissions
+from rest_framework import viewsets
+from rest_framework_simplejwt.views import TokenObtainPairView
 
 
 class ServicesViewsets(viewsets.ModelViewSet):
@@ -29,3 +31,7 @@ class ClientViewsets(viewsets.ModelViewSet):
 class ScheduleViewsets(viewsets.ModelViewSet):
     queryset = Schedule.objects.all()
     serializer_class = ScheduleSerializer
+
+
+class MyTokenObtainPairView(TokenObtainPairView):
+    serializer_class = MyTokenObtainPairSerializer
