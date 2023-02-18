@@ -17,16 +17,18 @@ class EmployeeAdmin(admin.ModelAdmin):
 
 @admin.register(Client)
 class ClientAdmin(admin.ModelAdmin):
-    list_display = ["phone", "address"]
+    list_display = ["name", "phone", "address"]
 
 
 @admin.register(Schedule)
 class ScheduleAdmin(admin.ModelAdmin):
     list_display = [
         "client",
-        "employee",
+        "attendant",
+        "helper",
         "service",
         "date",
         "status",
         "payment",
+        "get_service_value"
     ]
