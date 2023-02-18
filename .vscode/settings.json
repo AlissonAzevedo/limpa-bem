@@ -1,0 +1,19 @@
+{
+    "isort.args":["--profile", "black"],
+    "[python]": {
+        "editor.formatOnSave": true,
+    },
+
+    "editor.rulers": [
+        80
+    ],
+    "files.trimFinalNewlines": true,
+    "files.trimTrailingWhitespace": true,
+    "python.defaultInterpreterPath": "~/Documents/dev/limpa-bem/env/Scripts/python",
+    "python.formatting.blackPath": "~/Documents/dev/limpa-bem/env/Scripts/black",
+    "python.formatting.provider": "black",
+    "python.linting.flake8Enabled": true,
+    "python.linting.flake8Path": "~/Documents/dev/limpa-bem/env/Scripts/flake8",
+    "python.linting.pylintEnabled": false,
+    "python.linting.enabled": true,
+  }
