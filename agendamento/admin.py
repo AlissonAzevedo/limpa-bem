@@ -30,5 +30,5 @@ class ScheduleAdmin(admin.ModelAdmin):
         "date",
         "status",
         "payment",
-        "get_service_value"
+        "service_value",
     ]

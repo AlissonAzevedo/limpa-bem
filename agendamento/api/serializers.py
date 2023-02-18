@@ -66,6 +66,7 @@ class ScheduleSerializer(serializers.ModelSerializer):
             "date",
             "status",
             "payment",
+            "service_value"
         ]
 
     def create(self, validated_data):
