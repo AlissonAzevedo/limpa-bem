@@ -1,6 +1,6 @@
 # django
 from django.db import models
-from django.contrib.auth.models import User
+from django.contrib.auth.models import User, Group
 
 # app
 from agendamento.choices import COMPANY_POSITION, STATUS_SCHEDULE, METHOD_PAYMENT
@@ -27,7 +27,10 @@ class Services(BaseModel):
 
 class Employee(models.Model):
     user = models.OneToOneField(
-        User, verbose_name="Usuário", on_delete=models.CASCADE, default=None
+        User,
+        on_delete=models.CASCADE,
+        default=None,
+        related_name="funcionario",
     )
     name = models.CharField(max_length=255, default=None)
     position = models.CharField("Cargo:", max_length=100, choices=COMPANY_POSITION)
@@ -35,6 +38,16 @@ class Employee(models.Model):
     class Meta:
         verbose_name = "Funcionário"
         verbose_name_plural = "Funcionários"
+
+    def save(self, *args, **kwargs):
+        super().save(*args, **kwargs)
+        # Adiciona o novo usuário ao grupo "Gerente ou Helper"
+        if self.position == "gerente":
+            gerente_group, created = Group.objects.get_or_create(name="Gerente")
+            gerente_group.user_set.add(self.user)
+        elif self.position == "helper":
+            helper_group, created = Group.objects.get_or_create(name="Helper")
+            helper_group.user_set.add(self.user)
 
     def __str__(self):
         return self.name
@@ -130,6 +143,12 @@ class Attendant(models.Model):
     class Meta:
         verbose_name = "Atendente"
         verbose_name_plural = "Atendentes"
+
+    def save(self, *args, **kwargs):
+        super().save(*args, **kwargs)
+        # Adiciona o novo usuário ao grupo "Atendente"
+        atendente_group, created = Group.objects.get_or_create(name="Atendente")
+        atendente_group.user_set.add(self.user)
 
     def __str__(self):
         return self.name

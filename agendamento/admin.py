@@ -7,22 +7,23 @@ from .models import Services, Employee, Client, Schedule, Attendant
 
 @admin.register(Services)
 class ServicesAdmin(admin.ModelAdmin):
-    list_display = ["name", "price", "active"]
+    list_display = ["id", "name", "price", "active"]
 
 
 @admin.register(Employee)
 class EmployeeAdmin(admin.ModelAdmin):
-    list_display = ["user", "name", "position", "is_manager"]
+    list_display = ["id", "user", "name", "position", "is_manager"]
 
 
 @admin.register(Client)
 class ClientAdmin(admin.ModelAdmin):
-    list_display = ["name", "phone", "address"]
+    list_display = ["id", "name", "phone", "address"]
 
 
 @admin.register(Schedule)
 class ScheduleAdmin(admin.ModelAdmin):
     list_display = [
+        "id",
         "client",
         "helper",
         "service",
@@ -33,6 +34,7 @@ class ScheduleAdmin(admin.ModelAdmin):
         "service_value",
     ]
 
+
 @admin.register(Attendant)
 class AttendantAdmin(admin.ModelAdmin):
-    list_display = ["name", "user", "schedule_list"]
+    list_display = ["id", "name", "user", "schedule_list"]
