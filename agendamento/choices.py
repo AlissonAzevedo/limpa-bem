@@ -1,6 +1,5 @@
 COMPANY_POSITION = (
     ('gerente', 'Gerente'),
-    ('atendente', 'Atendente'),
     ('helper', 'Helper')
 )
 
@@ -11,7 +10,7 @@ STATUS_SCHEDULE = (
 )
 
 METHOD_PAYMENT = (
-    ('debito', 'Dinheiro'),
+    ('dinheiro', 'Dinheiro'),
     ('credito', 'Crédito'),
     ('debito', 'Débito'),
     ('pix', 'Pix')

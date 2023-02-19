@@ -4,6 +4,7 @@ from django.contrib.auth.models import User
 
 # app
 from agendamento.choices import COMPANY_POSITION, STATUS_SCHEDULE, METHOD_PAYMENT
+from agendamento.managers import AttendantQueryset
 
 
 class BaseModel(models.Model):
@@ -84,10 +85,6 @@ class Client(models.Model):
 
 
 class Schedule(BaseModel):
-    service = models.ForeignKey(Services, on_delete=models.CASCADE)
-    attendant = models.ForeignKey(
-        Employee, on_delete=models.CASCADE, related_name="atendente", default=None
-    )
     helper = models.ForeignKey(
         Employee, on_delete=models.CASCADE, related_name="ajudante", default=None
     )
@@ -97,6 +94,7 @@ class Schedule(BaseModel):
     client = models.ForeignKey(Client, on_delete=models.CASCADE)
     date = models.DateTimeField("Data do atendimento:")
     status = models.CharField("Situação:", max_length=100, choices=STATUS_SCHEDULE)
+    service = models.ForeignKey(Services, on_delete=models.CASCADE, default=None)
     service_value = models.DecimalField(
         "Valor do Serviço:",
         max_digits=7,
@@ -109,10 +107,35 @@ class Schedule(BaseModel):
         verbose_name = "Agendamento"
         verbose_name_plural = "Agendamentos"
 
-    def __init__(self, *args, **kwargs):
-        super().__init__(*args, **kwargs)
-        if not self.service_value:
-            self.service_value = self.service.price
-
     def __str__(self):
         return self.client.name
+
+    def service_price(self):
+        return self.service.price
+
+
+class Attendant(models.Model):
+    name = models.CharField(max_length=255, default=None)
+    user = models.OneToOneField(
+        User, verbose_name="usuario", on_delete=models.CASCADE, default=None
+    )
+    schedule = models.ManyToManyField(
+        Schedule,
+        related_name="agendamentos",
+        blank=True,
+    )
+
+    objects = AttendantQueryset.as_manager()
+
+    class Meta:
+        verbose_name = "Atendente"
+        verbose_name_plural = "Atendentes"
+
+    def __str__(self):
+        return self.name
+
+    def schedule_list(self):
+        if self.schedule.all():
+            return list(self.schedule.all().values_list("service__name", flat=True))
+        else:
+            return "Nenhum agendamento cadastrado"
