@@ -1,10 +1,12 @@
 # app
-from agendamento.models import Services, Employee, Client, Schedule
+from agendamento.models import Services, Employee, Client, Schedule, Attendant
 from agendamento.api.serializers import (
     ServicesSerializer,
     EmployeeSerializer,
     ClientSerializer,
     ScheduleSerializer,
+    AttendantSerializer,
+    AttendantesListTodaySerializer
 )
 from agendamento.api.serializers import MyTokenObtainPairSerializer
 
@@ -21,6 +23,16 @@ class ServicesViewsets(viewsets.ModelViewSet):
 class EmployeeViewsets(viewsets.ModelViewSet):
     queryset = Employee.objects.all()
     serializer_class = EmployeeSerializer
+
+
+class AttendantesListTodayViewsets(viewsets.ModelViewSet):
+    queryset = Attendant.objects.filter_today()
+    serializer_class = AttendantesListTodaySerializer
+
+
+class AttendantViewsets(viewsets.ModelViewSet):
+    queryset = Attendant.objects.all()
+    serializer_class = AttendantSerializer
 
 
 class ClientViewsets(viewsets.ModelViewSet):

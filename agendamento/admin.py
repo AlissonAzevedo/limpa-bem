@@ -1,6 +1,6 @@
 from django.contrib import admin
 
-from .models import Services, Employee, Client, Schedule
+from .models import Services, Employee, Client, Schedule, Attendant
 
 # Register your models here.
 
@@ -24,11 +24,15 @@ class ClientAdmin(admin.ModelAdmin):
 class ScheduleAdmin(admin.ModelAdmin):
     list_display = [
         "client",
-        "attendant",
         "helper",
         "service",
         "date",
         "status",
         "payment",
+        "service_price",
         "service_value",
     ]
+
+@admin.register(Attendant)
+class AttendantAdmin(admin.ModelAdmin):
+    list_display = ["name", "user", "schedule_list"]
