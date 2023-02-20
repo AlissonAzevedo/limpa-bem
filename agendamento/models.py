@@ -99,7 +99,8 @@ class Client(models.Model):
 
 class Schedule(BaseModel):
     helper = models.ForeignKey(
-        Employee, on_delete=models.CASCADE, related_name="ajudante", default=None
+        Employee, on_delete=models.CASCADE, related_name="ajudante", default=None,
+        null=True
     )
     payment = models.CharField(
         "Metodo de Pagamento:", max_length=100, choices=METHOD_PAYMENT
@@ -125,6 +126,12 @@ class Schedule(BaseModel):
 
     def service_price(self):
         return self.service.price
+
+    def name_service(self):
+        return self.service.name
+
+    def name_client(self):
+        return self.client.name
 
 
 class Attendant(models.Model):

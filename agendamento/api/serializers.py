@@ -53,7 +53,7 @@ class ClientSerializer(serializers.ModelSerializer):
 
 
 class ScheduleSerializer(serializers.ModelSerializer):
-    client = ClientSerializer()
+    #client = ClientSerializer()
 
     class Meta:
         model = Schedule
@@ -62,19 +62,14 @@ class ScheduleSerializer(serializers.ModelSerializer):
             "client",
             "helper",
             "service",
+            "name_service",
+            "name_client",
             "date",
             "status",
             "payment",
             "service_price",
             "service_value",
         ]
-
-    def create(self, validated_data):
-        client_data = validated_data.pop("client")
-        client = Client.objects.create(**client_data)
-        schedule = Schedule.objects.create(client=client, **validated_data)
-        return schedule
-
 
 class AttendantSerializer(serializers.ModelSerializer):
     user = UserSerializer()
