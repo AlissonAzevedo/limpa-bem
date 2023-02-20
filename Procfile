@@ -1,0 +1,1 @@
+web: gunicorn limpa_bem.wsgi --log-file -
