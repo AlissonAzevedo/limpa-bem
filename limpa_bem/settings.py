@@ -171,5 +171,5 @@ CORS_ALLOW_METHODS = [
 ]
 
 APPEND_SLASH = False
-
-STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
+CSRF_TRUSTED_ORIGINS = ["web-production-512c.up.railway.app", "127.0.0.1"]
+STATIC_ROOT = os.path.join(BASE_DIR, "staticfiles")
