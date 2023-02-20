@@ -3,7 +3,7 @@
 
   &#xa0;
 
-  <a href="https://limpabemfront.netlify.app">Demo</a>
+  <a href="https://web-production-7067.up.railway.app/">Demo</a>
 </div>
 
 <h1 align="center">Limpa Bem Backend</h1>
@@ -64,7 +64,7 @@ interface de uso do sistema)
 um framework front-end)
 
 ```bash
-https://limpabemfront.netlify.app
+https://web-production-7067.up.railway.app/
 ```
 
 ## :sparkles: Features ##
