@@ -26,7 +26,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = config("SECRET_KEY")
 DEBUG = config("DEBUG", default=False, cast=bool)
 
-ALLOWED_HOSTS = ['127.0.0.1', 'web-production-512c.up.railway.app']
+ALLOWED_HOSTS = ['127.0.0.1', 'web-production-7067.up.railway.app']
 
 
 # Application definition
@@ -171,5 +171,5 @@ CORS_ALLOW_METHODS = [
 ]
 
 APPEND_SLASH = False
-CSRF_TRUSTED_ORIGINS = ["https://web-production-512c.up.railway.app", "http://127.0.0.1"]
+CSRF_TRUSTED_ORIGINS = ["https://web-production-7067.up.railway.app", "http://127.0.0.1"]
 STATIC_ROOT = os.path.join(BASE_DIR, "staticfiles")
