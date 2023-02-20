@@ -1,1 +1,1 @@
-web: gunicorn limpa_bem.wsgi --log-file -
+web: python manage.py migrate && gunicorn limpa_bem.wsgi --log-file -
